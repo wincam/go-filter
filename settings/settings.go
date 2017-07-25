@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 //ImageFormat defines types of images
@@ -40,28 +40,36 @@ var Config YamlConfig
 
 //LoadConfig loads all arguments and the config yml
 func LoadConfig() error {
+	configAddress := readFlags()
+
+	return readConfig(configAddress)
+}
+
+//readFlags reads all flags and returns their values
+func readFlags() (configAddress string) {
 	// process args
 	configAddressPtr := flag.String("config", "~/.config/go-filter-config", "The location of the config yml")
 	flag.Parse()
+	return *configAddressPtr
+}
 
+// readConfig reads the config file at configAddress
+func readConfig(configAddress string) (err error) {
 	// read the config yml
-	log.Println("opening config at " + *configAddressPtr)
-	file, err := os.Open(*configAddressPtr)
+	log.Println("opening config at " + configAddress)
+	file, err := os.Open(configAddress)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
 	log.Println("reading config")
-	configText, err := ioutil.ReadAll(file)
+	configFile, err := ioutil.ReadAll(file)
 	if err != nil {
 		return err
 	}
 
 	// process the config yml
-	err = yaml.Unmarshal(configText, &Config)
-	if err != nil {
-		return err
-	}
-	return nil
+	err = yaml.Unmarshal(configFile, &Config)
+	return err
 }
