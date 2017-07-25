@@ -9,10 +9,22 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+//ImageFormat defines types of images
+type ImageFormat string
+
+// supported image format identifiers
+const (
+	PNG  ImageFormat = "PNG"
+	GIF  ImageFormat = "GIF"
+	JPEG ImageFormat = "JPEG"
+	BMP  ImageFormat = "BMP"
+	TIFF ImageFormat = "TIFF"
+)
+
 //DirectoryConfig contains all data about how go-filter will interact with a directory
 type DirectoryConfig struct {
-	Directory string   `yaml:"directory"`
-	Formats   []string `yaml:"formats,flow"`
+	Directory string        `yaml:"directory"`
+	Formats   []ImageFormat `yaml:"formats,flow"`
 }
 
 //YamlConfig contains all settings contained in the config yml
