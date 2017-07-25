@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -40,17 +41,21 @@ var Config YamlConfig
 
 //LoadConfig loads all arguments and the config yml
 func LoadConfig() error {
-	configAddress := readFlags()
+	configAddress, err := readFlags()
+	if err != nil {
+		return err
+	}
 
 	return readConfig(configAddress)
 }
 
 //readFlags reads all flags and returns their values
-func readFlags() (configAddress string) {
+func readFlags() (configAddress string, err error) {
 	// process args
 	configAddressPtr := flag.String("config", "~/.config/go-filter-config", "The location of the config yml")
 	flag.Parse()
-	return *configAddressPtr
+
+	return filepath.Abs(*configAddressPtr)
 }
 
 // readConfig reads the config file at configAddress
