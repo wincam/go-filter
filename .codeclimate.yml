@@ -8,6 +8,5 @@ engines:
     enabled: true
   fixme:
     enabled: true
-ratings:
-  paths: []
-exclude_paths: []
+  git-legal:
+    enabled: true
