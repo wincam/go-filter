@@ -1,0 +1,26 @@
+config:
+  - input:
+      directory: ~/Downloads
+      formats:
+        - PNG
+        - JPEG
+        - GIF
+    output:
+      directory: ~/Output
+      outputformats:
+        - PNG
+        - JPEG
+        - GIF
+        - TIFF
+  - input:
+      directory: ~/Downloads
+      formats:
+        - PNG
+        - JPEG
+        - GIF
+    output:
+      directory: ~/Output
+      outputformats:
+        - PNG
+        - JPEG
+        - GIF
