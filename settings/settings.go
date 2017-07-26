@@ -22,6 +22,12 @@ const (
 	TIFF ImageFormat = "TIFF"
 )
 
+//FilterConfig contains the rules that are applied when filtering
+type FilterConfig struct {
+	Input  DirectoryConfig `yaml:"input"`
+	Output DirectoryConfig `yaml:"output"`
+}
+
 //DirectoryConfig contains all data about how go-filter will interact with a directory
 type DirectoryConfig struct {
 	Directory string        `yaml:"directory"`
@@ -30,10 +36,7 @@ type DirectoryConfig struct {
 
 //YamlConfig contains all settings contained in the config yml
 type YamlConfig struct {
-	Config []struct {
-		Input  DirectoryConfig `yaml:"input"`
-		Output DirectoryConfig `yaml:"output"`
-	} `yaml:"config,flow"`
+	FilterConfigs []FilterConfig `yaml:"config,flow"`
 }
 
 //Config is the configuration yaml instance for go-filter
