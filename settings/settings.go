@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 //ImageFormat defines types of images
@@ -52,7 +52,7 @@ func LoadConfig() error {
 //readFlags reads all flags and returns their values
 func readFlags() (configAddress string, err error) {
 	// process args
-	configAddressPtr := flag.String("config", "~/.config/go-filter-config", "The location of the config yml")
+	configAddressPtr := flag.String("config", "example.config.yml", "The location of the config yml")
 	flag.Parse()
 
 	return filepath.Abs(*configAddressPtr)
