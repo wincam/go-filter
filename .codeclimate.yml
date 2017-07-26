@@ -1,4 +1,3 @@
----
 engines:
   golint:
     enabled: true
@@ -10,3 +9,6 @@ engines:
     enabled: true
   git-legal:
     enabled: true
+ratings:
+  paths:
+    - "**"
