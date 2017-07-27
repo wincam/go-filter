@@ -1,6 +1,6 @@
 config:
   - input:
-      directory: ~/Downloads
+      directory: /home/cameron/Projects
       formats:
         - PNG
         - JPEG
@@ -13,7 +13,7 @@ config:
         - GIF
         - TIFF
   - input:
-      directory: ~/Downloads
+      directory: /somedir
       formats:
         - PNG
         - JPEG
