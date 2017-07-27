@@ -1,12 +1,12 @@
 config:
   - input:
-      directory: /home/cameron/Projects
+      directory: /
       formats:
         - PNG
         - JPEG
         - GIF
     output:
-      directory: ~/Output
+      directory: /
       outputformats:
         - PNG
         - JPEG
