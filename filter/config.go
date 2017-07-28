@@ -37,7 +37,7 @@ type DirectoryConfig struct {
 }
 
 //processDirectory runs a filter on a directory and all it's children
-func (filter *Config) processDirectory() error {
+func (filter Config) processDirectory() error {
 	//get all files in directory
 	_, err := ioutil.ReadDir(filter.Input.Directory)
 	if err != nil {
@@ -59,12 +59,12 @@ func (filter *Config) processDirectory() error {
 }
 
 //cd changes the filter directory to dirName
-func (filter *Config) cd(dirName string) {
+func (filter Config) cd(dirName string) {
 	filter.Output.Directory = path.Join(filter.Output.Directory, dirName)
 	filter.Input.Directory = path.Join(filter.Input.Directory, dirName)
 }
 
-func (filter *Config) isDir() bool {
+func (filter Config) isDir() bool {
 	isDirectory := func(dir string) bool {
 		// check if directory exists and is directory
 		dirInfo, err := os.Stat(dir)
