@@ -7,6 +7,7 @@ go:
 install:
 - go get golang.org/x/tools/cmd/cover
 - go get github.com/mattn/goveralls
+- go get github.com/stretchr/testify/mock
 - go get ./...
 script:
   - $HOME/gopath/bin/goveralls -v -service=travis-ci -repotoken $COVERALLS_TOKEN
