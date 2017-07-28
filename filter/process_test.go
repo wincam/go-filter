@@ -1,32 +1,57 @@
 package filter
 
 import (
-	"os"
+	"errors"
 	"testing"
+
+	"github.com/stretchr/testify/mock"
 )
 
-func TestIsDirectory(t *testing.T) {
-	isDirectoryTestFactory := func(dirAddress string, dirExpected bool) func(t *testing.T) {
-		return func(t *testing.T) {
-			isDir := isDirectory(dirAddress)
+//MockConfig mock struct
+type MockConfig struct {
+	mock.Mock
+}
 
-			// expected error check
-			if isDir != dirExpected {
-				if dirExpected {
-					t.Error("Unexpected dir at " + dirAddress)
+func (m *MockConfig) processDirectory() error {
+	args := m.Called()
+	return args.Error(0)
+}
+
+func (m *MockConfig) cd(dirName string) {
+	m.Called(dirName)
+}
+
+func (m *MockConfig) isDir() bool {
+	args := m.Called()
+	return args.Bool(0)
+}
+
+func TestRunFilter(t *testing.T) {
+	runFilterTestFactory := func(errorExpected bool, isDir bool, goodProcess bool) func(t *testing.T) {
+		return func(t *testing.T) {
+			// build mock
+			mockFilterConfig := new(MockConfig)
+			mockFilterConfig.On("isDir").Return(isDir)
+
+			if isDir {
+				if goodProcess {
+					mockFilterConfig.On("processDirectory").Return(nil)
 				} else {
-					t.Error("No dir at " + dirAddress)
+					mockFilterConfig.On("processDirectory").Return(errors.New("test error"))
 				}
 			}
 
+			// run RunFilter
+			err := RunFilter(mockFilterConfig)
+			if err != nil && !errorExpected {
+				t.Error("Error thown when not expected")
+			}
+
+			mockFilterConfig.AssertExpectations(t)
 		}
 	}
 
-	dir, err := os.Getwd()
-	if err != nil {
-		t.Error("Cannot get PWD")
-	}
-	// run tests
-	t.Run("PWD test", isDirectoryTestFactory(dir, true))
-	t.Run("Fake dir test", isDirectoryTestFactory("fake dir", false))
+	t.Run("No dir or process", runFilterTestFactory(true, false, false))
+	t.Run("Is dir but process fails", runFilterTestFactory(true, true, false))
+	t.Run("Is dir and process suceeds", runFilterTestFactory(true, true, true))
 }
