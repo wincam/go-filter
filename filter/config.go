@@ -2,6 +2,7 @@ package filter
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 )
@@ -19,40 +20,44 @@ const (
 )
 
 type config interface {
-	processDirectory() error
+	processInput() error
 	isDir() bool
 }
 
 //Config contains the rules that are applied when filtering
 type Config struct {
-	Input  DirectoryConfig `yaml:"input"`
-	Output DirectoryConfig `yaml:"output"`
+	Input  IOConfig `yaml:"input"`
+	Output IOConfig `yaml:"output"`
 }
 
-//DirectoryConfig contains all data about how go-filter will interact with a directory
-type DirectoryConfig struct {
+//IOConfig contains all data about how go-filter will interact with a directory
+type IOConfig struct {
 	Directory string        `yaml:"directory"`
 	Formats   []ImageFormat `yaml:"formats,flow"`
 }
 
 //processDirectory runs a filter on a directory and all it's children
-func (filter Config) processDirectory() error {
-	//get all files in directory
-	_, err := ioutil.ReadDir(filter.Input.Directory)
-	if err != nil {
-		return err
-	}
+func (filter Config) processInput() error {
+	if filter.isDir() {
+		//get all files in directory
+		files, err := ioutil.ReadDir(filter.Input.Directory)
+		if err != nil {
+			return err
+		}
 
-	/*
+		// process children of input
 		for _, file := range files {
-			if file.IsDir() {
-				fmt.Println(file.Name() + "/")
-				newFilter := filter
-				newFilter.cd(file.Name())
-				newFilter.processDirectory()
+			// point to children
+			newFilter := filter
+			cd(file.Name(), &newFilter)
+			err = newFilter.processInput()
+			if err != nil {
+				log.Print(err)
 			}
-			fmt.Println(file.Name())
-		}*/
+		}
+	} else {
+		//TODO process
+	}
 
 	return nil
 }

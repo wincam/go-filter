@@ -10,7 +10,7 @@ func RunFilter(filter config) error {
 		return errors.New("config does not point a directory")
 	}
 
-	err := filter.processDirectory()
+	err := filter.processInput()
 	if err != nil {
 		return err
 	}

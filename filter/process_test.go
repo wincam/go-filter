@@ -12,7 +12,7 @@ type MockConfig struct {
 	mock.Mock
 }
 
-func (m *MockConfig) processDirectory() error {
+func (m *MockConfig) processInput() error {
 	args := m.Called()
 	return args.Error(0)
 }
@@ -31,9 +31,9 @@ func TestRunFilter(t *testing.T) {
 
 			if isDir {
 				if goodProcess {
-					mockFilterConfig.On("processDirectory").Return(nil)
+					mockFilterConfig.On("processInput").Return(nil)
 				} else {
-					mockFilterConfig.On("processDirectory").Return(errors.New("test error"))
+					mockFilterConfig.On("processInput").Return(errors.New("test error"))
 				}
 			}
 

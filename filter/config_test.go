@@ -9,7 +9,7 @@ import (
 func TestIsDir(t *testing.T) {
 	isDirectoryTestFactory := func(dirAddress string, dirExpected bool) func(t *testing.T) {
 		return func(t *testing.T) {
-			testConfig := Config{Input: DirectoryConfig{Directory: dirAddress}, Output: DirectoryConfig{Directory: dirAddress}}
+			testConfig := Config{Input: IOConfig{Directory: dirAddress}, Output: IOConfig{Directory: dirAddress}}
 			isDir := testConfig.isDir()
 
 			// expected error check
@@ -35,7 +35,7 @@ func TestIsDir(t *testing.T) {
 
 //Test for the Cd function
 func TestCd(t *testing.T) {
-	testConfig := Config{Input: DirectoryConfig{Directory: "/testInputDir"}, Output: DirectoryConfig{Directory: "/testOutputDir"}}
+	testConfig := Config{Input: IOConfig{Directory: "/testInputDir"}, Output: IOConfig{Directory: "/testOutputDir"}}
 
 	cd("testSubDir", &testConfig)
 	if testConfig.Input.Directory != "/testInputDir/testSubDir" {
