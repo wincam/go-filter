@@ -20,7 +20,6 @@ const (
 
 type config interface {
 	processDirectory() error
-	cd(dirName string)
 	isDir() bool
 }
 
@@ -59,7 +58,7 @@ func (filter Config) processDirectory() error {
 }
 
 //cd changes the filter directory to dirName
-func (filter Config) cd(dirName string) {
+func cd(dirName string, filter *Config) {
 	filter.Output.Directory = path.Join(filter.Output.Directory, dirName)
 	filter.Input.Directory = path.Join(filter.Input.Directory, dirName)
 }

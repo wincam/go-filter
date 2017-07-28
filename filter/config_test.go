@@ -37,7 +37,7 @@ func TestIsDir(t *testing.T) {
 func TestCd(t *testing.T) {
 	testConfig := Config{Input: DirectoryConfig{Directory: "/testInputDir"}, Output: DirectoryConfig{Directory: "/testOutputDir"}}
 
-	testConfig.cd("testSubDir")
+	cd("testSubDir", &testConfig)
 	if testConfig.Input.Directory != "/testInputDir/testSubDir" {
 		t.Error("Input dir not correct: " + testConfig.Input.Directory)
 	}

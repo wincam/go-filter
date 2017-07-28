@@ -12,16 +12,12 @@ type MockConfig struct {
 	mock.Mock
 }
 
-func (m MockConfig) processDirectory() error {
+func (m *MockConfig) processDirectory() error {
 	args := m.Called()
 	return args.Error(0)
 }
 
-func (m MockConfig) cd(dirName string) {
-	m.Called(dirName)
-}
-
-func (m MockConfig) isDir() bool {
+func (m *MockConfig) isDir() bool {
 	args := m.Called()
 	return args.Bool(0)
 }
