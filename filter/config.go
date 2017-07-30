@@ -24,18 +24,6 @@ type config interface {
 	isDir() bool
 }
 
-//Config contains the rules that are applied when filtering
-type Config struct {
-	Input  IOConfig `yaml:"input"`
-	Output IOConfig `yaml:"output"`
-}
-
-//IOConfig contains all data about how go-filter will interact with a directory
-type IOConfig struct {
-	Directory string        `yaml:"directory"`
-	Formats   []ImageFormat `yaml:"formats,flow"`
-}
-
 //processDirectory runs a filter on a directory and all it's children
 func (filter Config) processInput() error {
 	if filter.isDir() {
@@ -78,4 +66,10 @@ func (filter Config) isDir() bool {
 		return dirInfo.IsDir()
 	}
 	return isDirectory(filter.Input.Directory) && isDirectory(filter.Output.Directory)
+}
+
+//Config contains the rules that are applied when filtering
+type Config struct {
+	Input  IOConfig `yaml:"input"`
+	Output IOConfig `yaml:"output"`
 }
